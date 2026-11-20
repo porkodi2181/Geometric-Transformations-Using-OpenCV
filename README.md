@@ -1,120 +1,221 @@
-# Geometric Transformations Using OpenCV
+# EXP.4-RECORD-IMAGE-TRANSFORMATIONS
 
-## Aim
-To perform image transformation such as Translation, Scaling, Shearing, Reflection, Rotation and Cropping using OpenCV and Python.
+## AIM
 
-## Software Required:
-Anaconda - Python 3.7
+To write a Python program using OpenCV to perform various image transformations such as translation, scaling, shearing, reflection, rotation, and cropping.
 
-## Algorithm :
-### Step 1 :
+The program performs the following operations:
 
-Import necessary libraries such as OpenCV, NumPy, and Matplotlib for image processing and visualization.
+- Read and display the original image.
+- Perform image translation by shifting the image horizontally and vertically.
+- Apply image scaling to resize the image.
+- Perform image shearing in both horizontal and vertical directions.
+- Apply image reflection using flipping.
+- Rotate the image by 45 degrees.
+- Crop a specific portion of the image.
 
-### Step 2 :
+## SOFTWARE REQUIRED
 
+Anaconda – Python 3.7  
+Jupyter Notebook / VS Code  
+OpenCV (cv2)  
+NumPy  
+Matplotlib
 
-Read the input image using cv2.imread() and store it in a variable for further processing.
+## ALGORITHM
 
-### Step 3 :
+**Step 1:**
 
-Apply various transformations like translation, scaling, shearing, reflection, rotation, and cropping by defining corresponding functions:
+Import the required libraries: OpenCV, NumPy, and Matplotlib.
 
-1.Translation moves the image along the x or y-axis. 2.Scaling resizes the image by scaling factors. 3.Shearing distorts the image along one axis. 4.Reflection flips the image horizontally or vertically. 5.Rotation rotates the image by a given angle.
+**Step 2:**
 
-### Step 4 :
+Read the input image `Image.png` using OpenCV.
 
+**Step 3:**
 
-Display the transformed images using Matplotlib for visualization. Convert the BGR image to RGB format to ensure proper color representation.
+Display the original image using Matplotlib after converting the BGR image into RGB format.
 
-### Step 5 :
+**Step 4:**
 
+Perform image translation by creating a translation matrix with horizontal shift of 100 pixels and vertical shift of 50 pixels.
 
-Save or display the final transformed images for analysis and use plt.show() to display them inline in Jupyter or compatible environments.
+**Step 5:**
 
-## Program :
+Apply image scaling using `cv2.resize()` with scaling factors of 5.0 and 2.0.
+
+**Step 6:**
+
+Perform image shearing by creating a shearing matrix with a factor of 0.5 in both horizontal and vertical directions.
+
+**Step 7:**
+
+Perform image reflection using `cv2.flip()`.
+
+**Step 8:**
+
+Perform image rotation by 45 degrees using `cv2.getRotationMatrix2D()` and `cv2.warpAffine()`.
+
+**Step 9:**
+
+Perform image cropping by selecting a specific region from the original image using array slicing.
+
+**Step 10:**
+
+Display all the transformed images using Matplotlib.
+
+## PROGRAM
+
+**Developed By**
+
+## Name: Rubasri R
+## Register No: 212224240139
+
+### 1. Import the Required Libraries and Read the Image
+
 ```python
-Developed By:PORKODI.B
-Register Number: 212224240114
-
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Load the image
-image = cv2.imread('nature.jpg')
-image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Convert BGR to RGB for Matplotlib
+image = cv2.imread('Image.png')
 
-# 1. Image Translation
-rows, cols, _ = image.shape
-M_translate = np.float32([[1, 0, 50], [0, 1, 100]])  # Translate by (50, 100) pixels
-translated_image = cv2.warpAffine(image_rgb, M_translate, (cols, rows))
-
-# 2. Image Scaling
-scaled_image = cv2.resize(image_rgb, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_LINEAR)  # Scale by 1.5x
-
-# 3. Image Shearing
-M_shear = np.float32([[1, 0.5, 0], [0.5, 1, 0]])  # Shear with factor 0.5
-sheared_image = cv2.warpAffine(image_rgb, M_shear, (int(cols * 1.5), int(rows * 1.5)))
-
-# 4. Image Reflection (Flip)
-reflected_image = cv2.flip(image_rgb, 1)  # Horizontal reflection (flip along y-axis)
-
-# 5. Image Rotation
-M_rotate = cv2.getRotationMatrix2D((cols / 2, rows / 2), 45, 1)  # Rotate by 45 degrees
-rotated_image = cv2.warpAffine(image_rgb, M_rotate, (cols, rows))
-
-# 6. Image Cropping
-cropped_image = image_rgb[50:300, 100:400]  # Crop a portion of the image
-
-# Plot the original and transformed images
-plt.figure(figsize=(12, 8))
-
-plt.subplot(2, 3, 1)
-plt.imshow(image_rgb)
+plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 plt.title("Original Image")
 plt.axis('off')
+```
 
-plt.subplot(2, 3, 2)
-plt.imshow(translated_image)
+**OUTPUT:**
+
+<img width="352" height="455" alt="image" src="https://github.com/user-attachments/assets/26c01dcf-49d6-4ad6-8b07-4d80816fc8e9" />
+
+
+### 2. Perform Image Translation
+
+```python
+tx, ty = 100, 50
+
+M_translation = np.float32([[1, 0, tx], [0, 1, ty]])
+
+translated_image = cv2.warpAffine(
+    image, M_translation,
+    (image.shape[1], image.shape[0])
+)
+
+plt.imshow(cv2.cvtColor(translated_image, cv2.COLOR_BGR2RGB))
 plt.title("Translated Image")
 plt.axis('off')
+```
 
-plt.subplot(2, 3, 3)
-plt.imshow(scaled_image)
+**OUTPUT:**
+
+<img width="380" height="467" alt="image" src="https://github.com/user-attachments/assets/29172f7f-8e6d-4d21-9a60-32c9c9316f30" />
+
+
+
+### 3. Perform Image Scaling
+
+```python
+fx, fy = 5.0, 2.0
+
+scaled_image = cv2.resize(
+    image, None, fx=fx, fy=fy,
+    interpolation=cv2.INTER_LINEAR
+)
+
+plt.imshow(cv2.cvtColor(scaled_image, cv2.COLOR_BGR2RGB))
 plt.title("Scaled Image")
 plt.axis('off')
+```
 
-plt.subplot(2, 3, 4)
-plt.imshow(sheared_image)
+**OUTPUT:**
+
+<img width="566" height="307" alt="image" src="https://github.com/user-attachments/assets/86fc9a15-718e-43d1-999a-74f0a2774947" />
+
+### 4. Perform Image Shearing
+
+```python
+shear_matrix = np.float32([
+    [1, 0.5, 0],
+    [0.5, 1, 0]
+])
+
+sheared_image = cv2.warpAffine(
+    image, shear_matrix,
+    (image.shape[1], image.shape[0])
+)
+
+plt.imshow(cv2.cvtColor(sheared_image, cv2.COLOR_BGR2RGB))
 plt.title("Sheared Image")
 plt.axis('off')
+```
 
-plt.subplot(2, 3, 5)
-plt.imshow(reflected_image)
+**OUTPUT:**
+
+<img width="385" height="455" alt="image" src="https://github.com/user-attachments/assets/7c84ff19-af5f-4817-a34f-7bc8e65c169b" />
+
+
+### 5. Perform Image Reflection
+
+```python
+reflected_image = cv2.flip(image, 2)
+
+plt.imshow(cv2.cvtColor(reflected_image, cv2.COLOR_BGR2RGB))
 plt.title("Reflected Image")
 plt.axis('off')
+```
 
-plt.subplot(2, 3, 6)
-plt.imshow(rotated_image)
+**OUTPUT:**
+
+<img width="361" height="446" alt="image" src="https://github.com/user-attachments/assets/e18a2e27-3638-4c01-ab33-827bbae3e9cf" />
+
+
+
+### 6. Perform Image Rotation
+
+```python
+(height, width) = image.shape[:2]
+
+angle = 45
+
+center = (width // 2, height // 2)
+
+M_rotation = cv2.getRotationMatrix2D(center, angle, 1)
+
+rotated_image = cv2.warpAffine(
+    image, M_rotation, (width, height)
+)
+
+plt.imshow(cv2.cvtColor(rotated_image, cv2.COLOR_BGR2RGB))
 plt.title("Rotated Image")
 plt.axis('off')
+```
 
-plt.tight_layout()
-plt.show()
+**OUTPUT:**
 
-# Plot cropped image separately as its aspect ratio may be different
-plt.figure(figsize=(4, 4))
-plt.imshow(cropped_image)
+<img width="382" height="453" alt="image" src="https://github.com/user-attachments/assets/d73b479c-26da-48ec-a127-2403bdd7e8d7" />
+
+
+
+### 7. Perform Image Cropping
+
+```python
+x, y, w, h = 200, 200, 250, 200
+
+cropped_image = image[y:y+h, x:x+w]
+
+plt.imshow(cv2.cvtColor(cropped_image, cv2.COLOR_BGR2RGB))
 plt.title("Cropped Image")
 plt.axis('off')
-plt.show()
 ```
-## Output:
 
-![image](https://github.com/user-attachments/assets/bbbb3159-3a9c-4975-97ac-0fd00895fd54)
+**OUTPUT:**
+
+<img width="388" height="457" alt="image" src="https://github.com/user-attachments/assets/49381911-c8af-482c-a36b-811cb9b91825" />
 
 
-## Result: 
 
-Thus the different image transformations such as Translation, Scaling, Shearing, Reflection, Rotation and Cropping are done using OpenCV and python programming.
+
+## RESULT
+
+Thus, various image transformations such as translation, scaling, shearing, reflection, rotation, and cropping are successfully performed using OpenCV. The transformations demonstrate how images can be modified and manipulated for different image processing applications.
